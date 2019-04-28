@@ -1,0 +1,56 @@
+<svg>
+  <rect id="background"/>
+  
+  <svg id="hrContainer">
+    <image id="hrDigit1" href="numbers/_.png" load="sync"/>
+    <image id="hrDigit2" href="numbers/_.png" load="sync"/>
+    <image id="hrDigit3" href="numbers/_.png" load="sync"/>
+    <text id="hrLabel"/>
+  </svg>
+  
+  <image id="batteryBar" href="battery/3.png" load="sync"/>
+  
+  <image id="weekday" href="days/_.png" load="sync"/>
+  
+  <svg id="timeContainer">
+    <image id="timeDigit1" href="numbers/_.png" load="sync"/>
+    <image id="timeDigit2" href="numbers/_.png" load="sync"/>
+    <image id="timeColon"  href="numbers/colon_clear.png" load="sync"/>
+    <image id="timeDigit3" href="numbers/_.png" load="sync"/>
+    <image id="timeDigit4" href="numbers/_.png" load="sync"/>
+  </svg>
+  
+  <svg id="dateContainer">
+    <image id="dateMonth"  href="months/_.png" load="sync"/>
+    <image id="dateDigit1" href="numbers/_.png" load="sync"/>
+    <image id="dateDigit2" href="numbers/_.png" load="sync"/>
+  </svg>
+  
+  <svg id="runnerContainer">
+    <image id="runner1" href="runner/1clear.png" load="sync"/>
+    <image id="runner2" href="runner/2clear.png" load="sync"/>
+    <image id="runner3" href="runner/3clear.png" load="sync"/>
+    <image id="runner4" href="runner/4clear.png" load="sync"/>
+    <image id="runner5" href="runner/5clear.png" load="sync"/>
+    <image id="runner6" href="runner/6clear.png" load="sync"/>
+    <image id="runner7" href="runner/7clear.png" load="sync"/>
+    <image id="runner8" href="runner/8clear.png" load="sync"/>
+  </svg>
+  
+  <svg id="stepContainer">
+    <image id="stepDigit1" href="numbers/_.png" load="sync"/>
+    <image id="stepDigit2" href="numbers/_.png" load="sync"/>
+    <text id="stepDot"/>
+    <image id="stepDigit3" href="numbers/_.png" load="sync"/>
+    <text id="stepLabel"/>
+  </svg>
+  
+  <svg id="calorieContainer">
+    <text id="calorieLabel"/>
+    <image id="calorieDigit1" href="numbers/_.png" load="sync"/>
+    <image id="calorieDigit2" href="numbers/_.png" load="sync"/>
+    <image id="calorieDigit3" href="numbers/_.png" load="sync"/>
+    <image id="calorieDigit4" href="numbers/_.png" load="sync"/>
+  </svg>
+  
+</svg>

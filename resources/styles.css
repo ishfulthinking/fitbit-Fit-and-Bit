@@ -1,0 +1,230 @@
+#background {
+  width: 100%;
+  height: 100%;
+  fill: #E9EAE4;
+}
+
+/* Heart rate stuff, located in the top left. */
+#hrContainer {
+  x: 2;
+  y: 2;
+}
+#hrDigit1 {
+  x: 0;
+  width: 20;
+  height: 28;
+}
+#hrDigit2 {
+  x: 22;
+  width: 20;
+  height: 28;
+}
+#hrDigit3 {
+  x: 44;
+  width: 20;
+  height: 28;
+}
+#hrLabel {
+  x: 67;
+  y: 8;
+  font-size: 12;
+  font-family: System-Bold;
+  text-length: 4;
+  fill: black;
+}
+
+
+
+/* Battery stuff. */
+#batteryBar {
+  x: 289;
+  y: 2;
+  width: 57;
+  height: 26;
+}
+
+
+
+/* Date and time. */
+#weekday {
+  x: 150;
+  y: 24;
+  width: 48;
+  height: 23;
+}
+
+#timeContainer {
+  x: 106;
+  y: 56;
+}
+#timeDigit1 {
+  x: 0;
+  width: 28;
+  height: 42;
+}
+#timeDigit2 {
+  x: 32;
+  width: 28;
+  height: 42;
+}
+#timeColon {
+  x: 64;
+  width: 8;
+  height: 42;
+}
+#timeDigit3 {
+  x: 76;
+  width: 28;
+  height: 42;
+}
+#timeDigit4 {
+  x: 108;
+  width: 28;
+  height: 42;
+}
+
+#dateContainer {
+  x: 127;
+  y: 107;
+}
+#dateMonth {
+  width: 49;
+  height: 23;
+}
+#dateDigit1 {
+  x: 62;
+  width: 16;
+  height: 23;
+}
+#dateDigit2 {
+  x: 78;
+  width: 16;
+  height: 23;
+}
+
+
+/* Runner animation stuff. */
+#runnerContainer {
+  x: 8;
+  y: 166;
+}
+#runner1 {
+  x: 0;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+#runner2 {
+  x: 41;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+#runner3 {
+  x: 82;
+  y: -28;
+  width: 40;
+  height: 40;
+}
+#runner4 {
+  x: 123;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+#runner5 {
+  x: 164;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+#runner6 {
+  x: 205;
+  y: -28;
+  width: 40;
+  height: 40;
+}
+#runner7 {
+  x: 246;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+#runner8 {
+  x: 287;
+  y: 0;
+  width: 40;
+  height: 40;
+}
+
+
+/* Steps count stuff. */
+#stepContainer {
+  x: 2;
+  y: 220;
+}
+#stepDigit1 {
+  x: 0;
+  width: 20;
+  height: 28;
+}
+#stepDigit2 {
+  x: 22;
+  width: 20;
+  height: 28;
+}
+#stepDot {
+  x: 44;
+  y: 27;
+  font-size: 24;
+  font-family: System-Bold;
+  text-length: 4;
+  fill: black;
+}
+#stepDigit3 {
+  x: 52;
+  width: 20;
+  height: 28;
+}
+#stepLabel {
+  x: 74;
+  y: 28;
+  font-size: 12;
+  font-family: System-Bold;
+  text-length: 8;
+  fill: black;
+}
+
+/* Calories stuff. */
+#calorieContainer {
+  x: 228;
+  y: 220;
+}
+#calorieLabel {
+  x: 0;
+  y: 28;
+  font-size: 12;
+  font-family: System-Bold;
+  text-length: 8;
+  fill: black;
+}
+#calorieDigit1 {
+  x: 32;
+  width: 20;
+  height: 28;
+}
+#calorieDigit2 {
+  x: 54;
+  width: 20;
+  height: 28;
+}
+#calorieDigit3 {
+  x: 76;
+  width: 20;
+  height: 28;
+}
+#calorieDigit4 {
+  x: 98;
+  width: 20;
+  height: 28;
+}
