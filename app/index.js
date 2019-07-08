@@ -49,93 +49,116 @@ let calorieDigit2  = document.getElementById("calorieDigit2");
 let calorieDigit3  = document.getElementById("calorieDigit3");
 let calorieDigit4  = document.getElementById("calorieDigit4");
 
-// Initialize the constants (labels)
+// Initialize the constants (labels).
 hrLabel.text = "BPM";
 stepDot.text = ".";
 stepLabel.text = "K STEPS";
 calorieLabel.text = "CALS";
 
-// Update the clock every second
+// We create a new, global HeartRateSensor object here and reuse it to save on runtime and memory.
+let hrm = new HeartRateSensor();
+let loaded = false;
+
+// Update the clock every second.
 clock.granularity = "seconds";
-
-
-/* --- Built-in settings: time, stats, and runner animation --- */
 clock.ontick = (evt) => {
   let todayDate = evt.date;
+  let seconds = todayDate.getSeconds();
+  let minutes = todayDate.getMinutes();
   let hours = todayDate.getHours();
-      hours = hours % 12 || 12;
-  let mins = todayDate.getMinutes();
-  let secs = todayDate.getSeconds();
+  let day = todayDate.getDay();
   
-  
-  /* --- Time section --- */
-    // Weekday adjustment code
-    weekday.href = util.mapDayToImg(todayDate.getDay());
-
-    // Clock adjustment code
-    timeDigit1.href = util.mapNumToImg(util.getTensDigit(hours));
-    timeDigit2.href = util.mapNumToImg(util.getOnesDigit(hours));
-    timeColon.href  = util.mapColonImg(secs);
-    timeDigit3.href = util.mapNumToImg(util.getTensDigit(mins));
-    timeDigit4.href = util.mapNumToImg(util.getOnesDigit(mins));
-
-    // Month adjustment code
-    dateMonth.href  = util.mapMonthToImg(todayDate.getMonth());
-    dateDigit1.href = util.mapNumToImg(util.getTensDigit(todayDate.getDate()));
-    dateDigit2.href = util.mapNumToImg(util.getOnesDigit(todayDate.getDate()));
-  
-  
-  /* --- Stats section --- */
-    // Heart rate adjustment code
-    let hrm = new HeartRateSensor();
-    let heartRate = "---";
-  
-    if (hrm.activated != true) {
-      hrm.start();
-    }
-  
-    hrm.onreading = function() {
-      heartRate = hrm.heartRate || "---";
-      hrDigit1.href = util.mapNumToImg(util.getHundredsDigit(heartRate));
-      hrDigit2.href = util.mapNumToImg(util.getTensDigit(heartRate));
-      hrDigit3.href = util.mapNumToImg(util.getOnesDigit(heartRate));
-      hrm.stop();
-    }
+  // If we've opened the watch for the first time, fill in all variables.
+  if (!loaded) {
+    doMinutesEvents(minutes);
+    doHoursEvents(hours);
+    doDaysEvents(day, todayDate);
     
-    // Battery adjustment code
-    batteryBar.href = util.mapBatteryToImg(battery.chargeLevel);
+    loaded = true;
+  }
   
-    // Step adjustment code
-    let stepsCountK = Math.floor(today.local.steps / 1000);
-    stepDigit1.href = util.mapNumToImg(util.getHundredsDigit(stepsCountK));
-    stepDigit2.href = util.mapNumToImg(util.getTensDigit(stepsCountK));
-    stepDigit3.href = util.mapNumToImg(util.getOnesDigit(stepsCountK));
+  doSecondsEvents(seconds);
   
-    // Calorie count code
-    let calorieCount = today.local.calories;
-    calorieDigit1.href = util.mapNumToImg(util.getThousandsDigit(calorieCount));
-    calorieDigit2.href = util.mapNumToImg(util.getHundredsDigit(calorieCount));
-    calorieDigit3.href = util.mapNumToImg(util.getTensDigit(calorieCount));
-    calorieDigit4.href = util.mapNumToImg(util.getOnesDigit(calorieCount));
-  
-  
-  /* --- Runner animation section --- */
-    let runnerSecs = Math.floor(secs % 10);
-    console.log(runnerSecs);
-  
-    // Run through 1 to 9. Set the correct runner to opaque and the rest to clear.
-    // This isn't ideal, since it'll repeat some "clear"-ings, but while testing
-    // I found that sometimes previous runners weren't rendered clear. This is a failsafe.
-    runner1.href = util.mapRunnerToImg(1, (runnerSecs === 1));
-    runner2.href = util.mapRunnerToImg(2, (runnerSecs === 2));
-    runner3.href = util.mapRunnerToImg(3, (runnerSecs === 3));
-    runner4.href = util.mapRunnerToImg(4, (runnerSecs === 4));
-    runner5.href = util.mapRunnerToImg(5, (runnerSecs === 5));
-    runner6.href = util.mapRunnerToImg(6, (runnerSecs === 6));
-    runner7.href = util.mapRunnerToImg(7, (runnerSecs === 7));
-    runner8.href = util.mapRunnerToImg(8, (runnerSecs === 8));
+  // Lower runtime by only doing some events on a minutely, hourly, or daily basis.
+  if (seconds == 0)
+    doMinutesEvents(minutes);
+  if (minutes == 0)
+    doHoursEvents(hours);
+  if (hours == 0)
+    doDaysEvents(day, todayDate);
 }
 
+function doSecondsEvents(seconds) {
+  timeColon.href = util.mapColonToImg(seconds);
+  
+  updateRunner(seconds);
+}
+  
+function doMinutesEvents(minutes) {
+  timeDigit3.href = util.mapNumToImg(util.getTensDigit(minutes));
+  timeDigit4.href = util.mapNumToImg(util.getOnesDigit(minutes));
+  
+  let stepsCountK = Math.floor(today.local.steps / 100);
+  stepDigit1.href = util.mapNumToImg(util.getHundredsDigit(stepsCountK));
+  stepDigit2.href = util.mapNumToImg(util.getTensDigit(stepsCountK));
+  stepDigit3.href = util.mapNumToImg(util.getOnesDigit(stepsCountK));
+
+  let calorieCount = today.local.calories;
+  calorieDigit1.href = util.mapNumToImg(util.getThousandsDigit(calorieCount));
+  calorieDigit2.href = util.mapNumToImg(util.getHundredsDigit(calorieCount));
+  calorieDigit3.href = util.mapNumToImg(util.getTensDigit(calorieCount));
+  calorieDigit4.href = util.mapNumToImg(util.getOnesDigit(calorieCount));
+  
+  updateHeartRate();
+}
+
+function doHoursEvents(hours) {
+  timeDigit1.href = util.mapNumToImg(util.getTensDigit(hours));
+  timeDigit2.href = util.mapNumToImg(util.getOnesDigit(hours));
+  
+  batteryBar.href = util.mapBatteryToImg(battery.chargeLevel);
+}
+
+function doDaysEvents(day, todayDate) {
+  weekday.href = util.mapDayToImg(day);
+  
+  dateMonth.href  = util.mapMonthToImg(todayDate.getMonth());
+  dateDigit1.href = util.mapNumToImg(util.getTensDigit(todayDate.getDate()));
+  dateDigit2.href = util.mapNumToImg(util.getOnesDigit(todayDate.getDate()));
+}
+
+/* --- Heart rate update section --- */
+function updateHeartRate() {
+  let heartRate = "---";
+  
+  if (hrm.activated != true)
+    hrm.start();
+
+  hrm.onreading = function() {
+    heartRate = hrm.heartRate || "---";
+    hrDigit1.href = util.mapNumToImg(util.getHundredsDigit(heartRate));
+    hrDigit2.href = util.mapNumToImg(util.getTensDigit(heartRate));
+    hrDigit3.href = util.mapNumToImg(util.getOnesDigit(heartRate));
+    hrm.stop();
+  }
+}
+
+/* --- Runner animation section --- */
+function updateRunner(seconds) {
+  seconds = seconds % 10;
+
+  // The runner will be on-screen from seconds 1 through 9. Set the current runner to opaque and the rest to clear.
+  // This isn't ideal, since it'll repeat many unnecessary "clear"-ings, but while testing
+  // I found that sometimes previous runners weren't rendered clear. This is a failsafe.
+  runner1.href = util.mapRunnerToImg(1, (seconds === 1));
+  runner2.href = util.mapRunnerToImg(2, (seconds === 2));
+  runner3.href = util.mapRunnerToImg(3, (seconds === 3));
+  runner4.href = util.mapRunnerToImg(4, (seconds === 4));
+  runner5.href = util.mapRunnerToImg(5, (seconds === 5));
+  runner6.href = util.mapRunnerToImg(6, (seconds === 6));
+  runner7.href = util.mapRunnerToImg(7, (seconds === 7));
+  runner8.href = util.mapRunnerToImg(8, (seconds === 8));
+}
 
 /* --- User settings: Clock background color --- */
 // Message is received

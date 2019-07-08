@@ -42,7 +42,7 @@ export function mapNumToImg(num) {
   return "numbers/-.png";
 }
 
-export function mapColonImg(seconds) {
+export function mapColonToImg(seconds) {
   if (seconds % 2 == 0)
     return "numbers/colon_black.png";
   
@@ -63,10 +63,12 @@ export function mapRunnerToImg(num, opaque) {
 }
 
 export function mapBatteryToImg(percentage) {
-  if (percentage > 66)
-    return "battery/3.png";
-  if (percentage > 33)
+  if (percentage < 20)
+    return "battery/0.png";
+  if (percentage < 45)
+    return "battery/1.png";
+  if (percentage < 70)
     return "battery/2.png";
   
-  return "battery/1.png";
+  return "battery/3.png";
 }

@@ -1,8 +1,10 @@
 #background {
   width: 100%;
   height: 100%;
-  fill: #E9EAE4;
+  fill: #ABB5AD;
 }
+
+
 
 /* Heart rate stuff, located in the top left. */
 #hrContainer {
