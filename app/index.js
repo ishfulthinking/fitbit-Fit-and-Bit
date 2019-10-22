@@ -55,7 +55,6 @@ stepDot.text = ".";
 stepLabel.text = "K STEPS";
 calorieLabel.text = "CALS";
 
-// We create a new, global HeartRateSensor object here and reuse it to save on runtime and memory.
 let hrm = new HeartRateSensor();
 let loaded = false;
 
@@ -68,36 +67,46 @@ clock.ontick = (evt) => {
   let hours = todayDate.getHours();
   let day = todayDate.getDay();
   
-  // If we've opened the watch for the first time, fill in all variables.
   if (!loaded) {
-    doMinutesEvents(minutes);
-    doHoursEvents(hours);
-    doDaysEvents(day, todayDate);
+    updateTime(hours, minutes);
+    updateDate(day, todayDate);
     
     loaded = true;
   }
-  
-  doSecondsEvents(seconds);
-  
-  // Lower runtime by only doing some events on a minutely, hourly, or daily basis.
-  if (seconds == 0)
-    doMinutesEvents(minutes);
-  if (minutes == 0)
-    doHoursEvents(hours);
-  if (hours == 0)
-    doDaysEvents(day, todayDate);
+  // Some events like the runner animation should be done every second...
+  updateAnimations(seconds);
+  // ...while others can be done every 5 seconds, to reduce the number of updates while
+  // still updating when needed. Checking every minute, for example, may not update
+  // the date until the user happens to turn on their watch at the moment seconds == 0.
+  if (seconds % 5 == 0) {
+    updateTime(hours, minutes);
+    updateDate(day, todayDate);
+    updateStats();
+  }
 }
 
-function doSecondsEvents(seconds) {
+function updateAnimations(seconds) {
   timeColon.href = util.mapColonToImg(seconds);
-  
   updateRunner(seconds);
 }
   
-function doMinutesEvents(minutes) {
+function updateTime(hours, minutes) {
+  if (preferences.clockDisplay == "12h")
+    hours = hours % 12 || 12;
+  timeDigit1.href = util.mapNumToImg(util.getTensDigit(hours));
+  timeDigit2.href = util.mapNumToImg(util.getOnesDigit(hours));
   timeDigit3.href = util.mapNumToImg(util.getTensDigit(minutes));
   timeDigit4.href = util.mapNumToImg(util.getOnesDigit(minutes));
-  
+}
+
+function updateDate(day, todayDate) {
+  weekday.href = util.mapDayToImg(day);
+  dateMonth.href  = util.mapMonthToImg(todayDate.getMonth());
+  dateDigit1.href = util.mapNumToImg(util.getTensDigit(todayDate.getDate()));
+  dateDigit2.href = util.mapNumToImg(util.getOnesDigit(todayDate.getDate()));
+}
+
+function updateStats() {
   let stepsCountK = Math.floor(today.local.steps / 100);
   stepDigit1.href = util.mapNumToImg(util.getHundredsDigit(stepsCountK));
   stepDigit2.href = util.mapNumToImg(util.getTensDigit(stepsCountK));
@@ -109,22 +118,8 @@ function doMinutesEvents(minutes) {
   calorieDigit3.href = util.mapNumToImg(util.getTensDigit(calorieCount));
   calorieDigit4.href = util.mapNumToImg(util.getOnesDigit(calorieCount));
   
-  updateHeartRate();
-}
-
-function doHoursEvents(hours) {
-  timeDigit1.href = util.mapNumToImg(util.getTensDigit(hours));
-  timeDigit2.href = util.mapNumToImg(util.getOnesDigit(hours));
-  
   batteryBar.href = util.mapBatteryToImg(battery.chargeLevel);
-}
-
-function doDaysEvents(day, todayDate) {
-  weekday.href = util.mapDayToImg(day);
-  
-  dateMonth.href  = util.mapMonthToImg(todayDate.getMonth());
-  dateDigit1.href = util.mapNumToImg(util.getTensDigit(todayDate.getDate()));
-  dateDigit2.href = util.mapNumToImg(util.getOnesDigit(todayDate.getDate()));
+  updateHeartRate();
 }
 
 /* --- Heart rate update section --- */
@@ -149,7 +144,8 @@ function updateRunner(seconds) {
 
   // The runner will be on-screen from seconds 1 through 9. Set the current runner to opaque and the rest to clear.
   // This isn't ideal, since it'll repeat many unnecessary "clear"-ings, but while testing
-  // I found that sometimes previous runners weren't rendered clear. This is a failsafe.
+  // I found that sometimes previous runners weren't rendered clear, so two appear simultaneously.
+  // This is a failsafe.
   runner1.href = util.mapRunnerToImg(1, (seconds === 1));
   runner2.href = util.mapRunnerToImg(2, (seconds === 2));
   runner3.href = util.mapRunnerToImg(3, (seconds === 3));
