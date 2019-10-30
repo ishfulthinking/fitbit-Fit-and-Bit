@@ -27,5 +27,6 @@ It's also open source (because I know how much that can help beginners)!
 ☝🏽 Option to allow users to select the two stats featured  
 💡 Night mode for black background with white runner silhouette  
 
+⌚ Check out my other clock faces for the Fitbit Ionic: [Maritime](https://github.com/ishfulthinking/fitbit-maritime) and [Rays](https://github.com/ishfulthinking/fitbit-rays)
 
 🙋🏽‍♂️ If you enjoy this app, please consider helping a broke college student (me)! https://www.buymeacoffee.com/ishfulthinking
